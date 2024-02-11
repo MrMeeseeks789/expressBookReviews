@@ -65,18 +65,20 @@ public_users.get('/review/:isbn',function (req, res) {
 
 // Task 10 
 
-function getBookList(){
-  return new Promise((resolve,reject)=>{
+function getBookList() {
+  return new Promise((resolve, reject) => {
     resolve(books);
-  })
+  });
 }
 
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
-  getBookList().then(
-    (bk)=>res.send(JSON.stringify(bk, null, 4)),
-    (error) => res.send("denied")
-  );  
+public_users.get('/', async function (req, res) {
+  try {
+    const bookList = await getBookList();
+    res.send(JSON.stringify(bookList, null, 4));
+  } catch (error) {
+    res.send("denied");
+  }
 });
 
 // Task 11
